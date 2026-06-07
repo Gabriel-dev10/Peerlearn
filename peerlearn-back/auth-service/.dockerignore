@@ -1,0 +1,7 @@
+node_modules
+dist
+.env
+.env.example
+features
+test
+**/*.spec.ts

@@ -1,0 +1,38 @@
+services:
+  - type: web
+    name: peerlearn-auth
+    runtime: docker
+    dockerfilePath: ./peerlearn-back/auth-service/Dockerfile
+    dockerContext: ./peerlearn-back/auth-service
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_EXPIRES_IN
+        value: 7d
+
+  - type: web
+    name: peerlearn-reputation
+    runtime: docker
+    dockerfilePath: ./peerlearn-back/reputation-service/Dockerfile
+    dockerContext: ./peerlearn-back/reputation-service
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+
+  - type: web
+    name: peerlearn-content
+    runtime: docker
+    dockerfilePath: ./peerlearn-back/content-service/Dockerfile
+    dockerContext: ./peerlearn-back/content-service
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: DEMO_SUBSCRIBERS
+        value: demo-aluno-1,demo-aluno-2
+      - key: REPUTATION_SERVICE_URL
+        sync: false

@@ -1,0 +1,32 @@
+# Dependências
+node_modules/
+.pnp
+.pnp.js
+
+# Build
+dist/
+build/
+*.tsbuildinfo
+
+# Prisma client gerado
+**/generated/
+**/@prisma/client
+
+# Variáveis de ambiente (manter apenas .env.example)
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+bun-debug.log*
+
+# Editor / SO
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Docker volumes locais
+docker/data/

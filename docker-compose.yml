@@ -1,0 +1,70 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: peerlearn-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: peerlearn
+      POSTGRES_PASSWORD: peerlearn123
+      POSTGRES_DB: peerlearn
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U peerlearn"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  auth-service:
+    build: ./peerlearn-back/auth-service
+    container_name: peerlearn-auth
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DATABASE_URL: postgresql://peerlearn:peerlearn123@postgres:5432/peerlearn_auth?schema=public
+      JWT_SECRET: super_secret_jwt_key_change_in_production
+      JWT_EXPIRES_IN: 7d
+    ports:
+      - "3001:3001"
+
+  reputation-service:
+    build: ./peerlearn-back/reputation-service
+    container_name: peerlearn-reputation
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3004
+      DATABASE_URL: postgresql://peerlearn:peerlearn123@postgres:5432/peerlearn_reputation?schema=public
+    ports:
+      - "3004:3004"
+
+  content-service:
+    build: ./peerlearn-back/content-service
+    container_name: peerlearn-content
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      reputation-service:
+        condition: service_started
+    environment:
+      NODE_ENV: production
+      PORT: 3003
+      DATABASE_URL: postgresql://peerlearn:peerlearn123@postgres:5432/peerlearn_content?schema=public
+      DEMO_SUBSCRIBERS: demo-aluno-1,demo-aluno-2
+      REPUTATION_SERVICE_URL: http://reputation-service:3004
+    ports:
+      - "3003:3003"
+
+volumes:
+  postgres_data:

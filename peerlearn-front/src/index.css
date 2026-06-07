@@ -1,0 +1,184 @@
+:root {
+  --bg: #f4f5f7;
+  --card: #ffffff;
+  --primary: #4f46e5;
+  --text: #1f2933;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --error: #dc2626;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-user {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.container {
+  max-width: 720px;
+  margin: 1.5rem auto;
+  padding: 0 1rem;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.form-card {
+  max-width: 400px;
+  margin: 2rem auto;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+input,
+textarea,
+select {
+  padding: 0.55rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+button,
+.button-link {
+  margin-top: 0.75rem;
+  padding: 0.55rem 1rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.nav-links button {
+  margin-top: 0;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.9rem;
+}
+
+.error {
+  color: var(--error);
+  font-size: 0.9rem;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.badge-type {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.badge {
+  background: #eef2ff;
+  color: var(--primary);
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+
+.xp {
+  font-size: 1.1rem;
+}
+
+.ranking {
+  list-style: none;
+  padding: 0;
+}
+
+.ranking li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.ranking .position {
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.ranking-xp {
+  margin-left: auto;
+  font-weight: 600;
+}
+
+.card.me {
+  border-color: var(--primary);
+}

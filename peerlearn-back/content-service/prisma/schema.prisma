@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ContentType {
+  video
+  text
+  quiz
+}
+
+model Trail {
+  id          String   @id
+  title       String
+  description String
+  ownerId     String   @map("owner_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  lessons Lesson[]
+
+  @@map("trails")
+}
+
+model Lesson {
+  id        String      @id
+  type      ContentType
+  title     String
+  body      String
+  authorId  String      @map("author_id")
+  trailId   String?     @map("trail_id")
+  createdAt DateTime    @default(now()) @map("created_at")
+
+  trail    Trail?    @relation(fields: [trailId], references: [id])
+  comments Comment[]
+
+  @@index([trailId])
+  @@map("lessons")
+}
+
+model Comment {
+  id        String   @id
+  lessonId  String   @map("lesson_id")
+  authorId  String   @map("author_id")
+  text      String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  lesson Lesson @relation(fields: [lessonId], references: [id])
+
+  @@index([lessonId])
+  @@map("comments")
+}
+
+model Notification {
+  id        String   @id
+  userId    String   @map("user_id")
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@map("notifications")
+}
