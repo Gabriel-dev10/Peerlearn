@@ -73,6 +73,29 @@ deploy, escalável separadamente). A comunicação entre eles é mínima: ao pub
    Postgres     Postgres        Postgres        (Neon em produção)
 ```
 
+### Estrutura do repositório (monorepo)
+
+O backend e o frontend ficam **juntos em um único repositório** (monorepo). Isso facilita o
+versionamento e o deploy, mas cada parte continua **independente** — tem seu próprio
+`package.json`, seu próprio build e seu próprio deploy (os serviços vão para o Render e o
+frontend para a Vercel, a partir do mesmo repositório).
+
+```
+PeerLearn/                        ← repositório único
+├── peerlearn-back/               ← BACKEND (3 microsserviços NestJS)
+│   ├── auth-service/             ← porta 3001
+│   ├── content-service/          ← porta 3003
+│   └── reputation-service/       ← porta 3004
+├── peerlearn-front/              ← FRONTEND (React + Vite)
+├── docker/postgres/init.sql      ← cria os bancos por serviço
+├── docker-compose.yml            ← sobe Postgres + os 3 serviços localmente
+├── render.yaml                   ← blueprint de deploy do backend (Render)
+└── README.md
+```
+
+Cada microsserviço segue a mesma organização interna (Clean Architecture):
+`src/domain`, `src/application`, `src/infrastructure`.
+
 ---
 
 ## 3. Stack
