@@ -2,6 +2,8 @@ import { useQuery } from '@tanstack/react-query'
 import { useAuth } from '../hooks/useAuth'
 import { reputationService } from '../services/reputation.service'
 
+const MEDALS = ['🥇', '🥈', '🥉']
+
 export function RankingPage() {
   const { user } = useAuth()
   const { data, isLoading, isError } = useQuery({
@@ -10,7 +12,7 @@ export function RankingPage() {
   })
 
   if (isLoading) {
-    return <p>Carregando ranking...</p>
+    return <p className="empty">Carregando ranking...</p>
   }
 
   if (isError) {
@@ -20,14 +22,22 @@ export function RankingPage() {
   return (
     <div>
       <h1>Ranking de XP</h1>
-      {data && data.length === 0 && <p>Ninguém pontuou ainda.</p>}
+      <p
+        className="muted"
+        style={{ marginTop: '-0.25rem', marginBottom: '1.5rem' }}
+      >
+        Os alunos que mais ensinam aparecem no topo. Publique aulas para subir.
+      </p>
+      {data && data.length === 0 && (
+        <p className="empty">Ninguém pontuou ainda. Publique uma aula!</p>
+      )}
       <ol className="ranking">
         {data?.map((entry, index) => (
           <li
             key={entry.userId}
             className={entry.userId === user?.userId ? 'card me' : 'card'}
           >
-            <span className="position">#{index + 1}</span>
+            <span className="position">{MEDALS[index] ?? `#${index + 1}`}</span>
             <span className="ranking-user">
               {entry.userId === user?.userId
                 ? 'Você'

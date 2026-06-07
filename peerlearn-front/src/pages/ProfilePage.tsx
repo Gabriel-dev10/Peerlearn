@@ -3,6 +3,15 @@ import { useAuth } from '../hooks/useAuth'
 import { contentService } from '../services/content.service'
 import { reputationService } from '../services/reputation.service'
 
+function initials(name: string): string {
+  return name
+    .split(' ')
+    .map((part) => part[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase()
+}
+
 export function ProfilePage() {
   const { user } = useAuth()
   const userId = user?.userId ?? ''
@@ -20,42 +29,68 @@ export function ProfilePage() {
     enabled: userId !== '',
   })
 
+  const badges = reputation.data?.badges ?? []
+  const notificationList = notifications.data ?? []
+
   return (
     <div>
       <h1>Meu perfil</h1>
 
       <div className="card">
-        <h2>{reputation.data?.displayName ?? displayName}</h2>
-        <p>{user?.email}</p>
-        <p className="xp">
-          <strong>{reputation.data?.xp ?? 0}</strong> XP
-        </p>
-
-        <div className="badges">
-          {reputation.data?.badges.length ? (
-            reputation.data.badges.map((badge) => (
-              <span key={badge.name} className="badge">
-                {badge.icon} {badge.name}
-              </span>
-            ))
-          ) : (
-            <span className="muted">Nenhum badge ainda</span>
-          )}
+        <div className="profile-head">
+          <span className="avatar">{initials(displayName)}</span>
+          <div>
+            <h2>{reputation.data?.displayName ?? displayName}</h2>
+            <span className="muted">{user?.email}</span>
+          </div>
         </div>
       </div>
 
-      <h2>Notificações</h2>
-      <ul className="list">
-        {notifications.data?.length ? (
-          notifications.data.map((item) => (
-            <li key={item.id} className="card">
-              {item.message}
-            </li>
+      <div className="stats">
+        <div className="stat">
+          <div className="stat-value">{reputation.data?.xp ?? 0}</div>
+          <div className="stat-label">XP acumulado</div>
+        </div>
+        <div className="stat">
+          <div className="stat-value">{badges.length}</div>
+          <div className="stat-label">Badges conquistados</div>
+        </div>
+        <div className="stat">
+          <div className="stat-value">{notificationList.length}</div>
+          <div className="stat-label">Notificações</div>
+        </div>
+      </div>
+
+      <h2 className="section-title">Badges</h2>
+      <div className="badges">
+        {badges.length ? (
+          badges.map((badge) => (
+            <span key={badge.name} className="badge">
+              {badge.icon} {badge.name}
+            </span>
           ))
         ) : (
-          <p className="muted">Sem notificações.</p>
+          <span className="muted">
+            Nenhum badge ainda — publique aulas para ganhar!
+          </span>
         )}
-      </ul>
+      </div>
+
+      <h2 className="section-title">Notificações</h2>
+      {notificationList.length ? (
+        <ul className="list">
+          {notificationList.map((item) => (
+            <li key={item.id} className="card">
+              {item.message}
+              <div className="card-meta">
+                {new Date(item.createdAt).toLocaleDateString('pt-BR')}
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="empty">Sem notificações por enquanto.</p>
+      )}
     </div>
   )
 }

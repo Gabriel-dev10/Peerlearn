@@ -8,6 +8,27 @@ conhecimento e gamificação com XP e badges.
 
 ---
 
+## Acesso ao sistema (deploy ativo)
+
+> **Aplicação publicada e funcionando** — o deploy foi feito pelo próprio autor
+> (Vercel para o frontend, Render para os microsserviços e Neon para o banco PostgreSQL).
+
+| O quê | Link |
+|---|---|
+| **Aplicação (use por aqui)** | **https://peerlearn-beta.vercel.app/login** |
+| API auth (Swagger) | `https://peerlearn-auth.onrender.com/docs` |
+| API content (Swagger) | `https://peerlearn-content.onrender.com/docs` |
+| API reputation (Swagger) | `https://peerlearn-reputation.onrender.com/docs` |
+
+O usuário acessa **apenas a aplicação web** (primeira linha). Os três microsserviços rodam
+**por trás, de forma transparente** — o frontend os consome via HTTP sem que o usuário precise
+saber que existem. Os links de Swagger acima são apenas para inspeção técnica/avaliação.
+
+> ℹ️ Os serviços do Render (plano gratuito) hibernam após ~15 min de inatividade; o **primeiro**
+> acesso pode levar ~30-50s para "acordar".
+
+---
+
 ## 1. Problema e proposta de solução
 
 **Problema:** dentro da universidade, o conhecimento técnico fica preso em indivíduos. O aluno
@@ -23,16 +44,21 @@ inscritos são **notificados** automaticamente.
 
 ## 2. Divisão em microsserviços
 
-| Serviço | Porta | Responsabilidade | Banco |
-|---|---|---|---|
-| **auth-service** | 3001 | Registro, login, JWT, papéis e perfil | PostgreSQL |
-| **content-service** | 3003 | Aulas, trilhas, comentários e notificações | PostgreSQL |
-| **reputation-service** | 3004 | XP, badges e ranking | PostgreSQL |
-| **peerlearn-front** | 5173 | Interface web (React) | — |
+O backend é dividido em **3 microsserviços independentes** (cada um com seu próprio código,
+banco e deploy), consumidos por **1 aplicação web** que os integra de forma transparente:
 
-Cada serviço é **independente** (próprio banco, próprio deploy). A comunicação entre eles é mínima:
-ao publicar uma aula, o `content-service` chama o `reputation-service` via HTTP para conceder XP ao
-autor.
+| Microsserviço | Porta | Responsabilidade | Banco | Pasta |
+|---|---|---|---|---|
+| **auth-service** | 3001 | Registro, login, JWT, papéis e perfil | PostgreSQL | `peerlearn-back/auth-service` |
+| **content-service** | 3003 | Aulas, trilhas, comentários e notificações | PostgreSQL | `peerlearn-back/content-service` |
+| **reputation-service** | 3004 | XP, badges e ranking | PostgreSQL | `peerlearn-back/reputation-service` |
+| **peerlearn-front** (web) | 5173 | Interface única que consome os 3 serviços | — | `peerlearn-front` |
+
+**Transparência para o usuário:** quem usa o sistema acessa **um único site** (o frontend). Ele
+não percebe que existem 3 serviços — o React chama cada API (auth, content, reputation) nos
+bastidores e monta uma experiência única. Cada serviço é **independente** (próprio banco, próprio
+deploy, escalável separadamente). A comunicação entre eles é mínima: ao publicar uma aula, o
+`content-service` chama o `reputation-service` via HTTP para conceder XP ao autor.
 
 ```
               ┌────────────┐
@@ -202,9 +228,7 @@ Documentação Swagger de cada serviço em `/docs` (ex.: http://localhost:3001/d
 
 ### Links do sistema publicado
 
-- Frontend: _<adicionar link da Vercel>_
-- Swagger auth: _<adicionar link do Render>/docs_
-- Swagger content / reputation: _<adicionar links>/docs_
+Veja a seção **🔗 Acesso ao sistema** no topo deste README.
 
 ---
 

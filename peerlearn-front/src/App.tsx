@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
+import { Footer } from './components/layout/Footer'
 import { Navbar } from './components/layout/Navbar'
 import { ProtectedRoute } from './components/layout/ProtectedRoute'
 import { CreateLessonPage } from './pages/CreateLessonPage'
@@ -51,6 +52,7 @@ export function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
+      <Footer />
     </>
   )
 }

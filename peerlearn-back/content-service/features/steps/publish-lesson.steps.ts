@@ -23,7 +23,6 @@ Given(
     const lessons = new InMemoryLessonRepository()
     const bus = new InProcessEventBus()
 
-    // Observer: o caso de uso de notificação reage ao evento de publicação
     const notify = new NotifySubscribersUseCase(
       notifications,
       new StubSubscriberProvider([...subscribersCsv.split(','), author]),

@@ -4,7 +4,6 @@
   "private": true,
   "description": "PeerLearn - backend (monorepo de microsserviços NestJS)",
   "workspaces": [
-    "shared",
     "auth-service",
     "content-service",
     "reputation-service"

@@ -2,11 +2,6 @@ import type { IEventPublisher } from '../src/application/ports/event-publisher'
 
 type Handler = (payload: unknown) => Promise<void> | void
 
-/**
- * Event bus síncrono em memória que demonstra o Observer:
- * um publisher emite e os handlers inscritos reagem.
- * Espelha o comportamento do EventEmitter2 usado em produção.
- */
 export class InProcessEventBus implements IEventPublisher {
   private readonly handlers = new Map<string, Handler[]>()
 
