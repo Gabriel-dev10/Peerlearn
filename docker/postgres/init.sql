@@ -1,6 +1,3 @@
--- Cria um banco PostgreSQL isolado por microsserviço.
--- Executado automaticamente pelo container na primeira inicialização.
-
 CREATE DATABASE peerlearn_auth;
 CREATE DATABASE peerlearn_content;
 CREATE DATABASE peerlearn_reputation;
