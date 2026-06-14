@@ -15,16 +15,16 @@ conhecimento e gamificação com XP e badges.
 
 | O quê | Link |
 |---|---|
-| **Aplicação (use por aqui)** | **https://peerlearn-beta.vercel.app** |
-| API auth (Swagger) | `https://peerlearn-auth.onrender.com/docs` |
-| API content (Swagger) | `https://peerlearn-content.onrender.com/docs` |
-| API reputation (Swagger) | `https://peerlearn-reputation.onrender.com/docs` |
+| **Aplicação** | **https://peerlearn-beta.vercel.app** |
+| API auth | `https://peerlearn-auth.onrender.com/docs` |
+| API content | `https://peerlearn-content.onrender.com/docs` |
+| API reputation | `https://peerlearn-reputation.onrender.com/docs` |
 
 O usuário acessa **apenas a aplicação web** (primeira linha). Os três microsserviços rodam
 **por trás, de forma transparente** — o frontend os consome via HTTP sem que o usuário precise
 saber que existem. Os links de Swagger acima são apenas para inspeção técnica/avaliação.
 
-> ℹ️ Os serviços do Render (plano gratuito) hibernam após ~15 min de inatividade; o **primeiro**
+> Os serviços do Render (plano gratuito) hibernam após ~15 min de inatividade; o **primeiro**
 > acesso pode levar ~30-50s para "acordar".
 
 ---
