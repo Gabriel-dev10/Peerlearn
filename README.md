@@ -15,7 +15,7 @@ conhecimento e gamificação com XP e badges.
 
 | O quê | Link |
 |---|---|
-| **Aplicação (use por aqui)** | **https://peerlearn-beta.vercel.app/login** |
+| **Aplicação (use por aqui)** | **https://peerlearn-beta.vercel.app** |
 | API auth (Swagger) | `https://peerlearn-auth.onrender.com/docs` |
 | API content (Swagger) | `https://peerlearn-content.onrender.com/docs` |
 | API reputation (Swagger) | `https://peerlearn-reputation.onrender.com/docs` |
